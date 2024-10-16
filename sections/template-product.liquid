@@ -1,0 +1,66 @@
+<div class="max-w-6xl mx-auto my-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        
+        <div class="product--medias">
+            <div class="hidden md:block sticky top-0">
+                {% for media in product.media %}
+                    <div class="h-100 overflow-hidden p-2">
+                        {% render 'product-media', media: media %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+       
+        <div class="product--information">
+            <h1 class="text-3xl font-bold">{{ product.title }}</h1>
+            <p class="text-lg">{{ product.description }}</p>
+            <p class="text-2xl font-medium text-gray-900">{{ product.price | money }}</p>
+
+            
+            {% form 'product', product %}
+                <input type='hidden' name='id' value="{{ product.selected_or_first_available_variant.id }}">
+                <label for="quantity" class="block text-sm font-medium">Quantity</label>
+                <input type="number" name="quantity" id="quantity" min="1" value="1" class="border px-3 py-2 my-4">
+
+                <button type="submit" name='add' class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500">
+                    Add to Cart
+                </button>
+            {% endform %}
+        </div>
+    </div>
+</div>
+
+
+{% schema %}
+{
+    "name": "Product",
+    "blocks": [
+        {
+            "type": "title",
+            "name": "Title",
+            "limit": 1
+        },
+        {
+            "type": "price",
+            "name": "Price",
+            "limit": 1
+        },
+        {
+            "type": "quantity",
+            "name": "Quantity",
+            "limit": 1
+        },
+        {
+            "type": "description",
+            "name": "Description",
+            "limit": 1
+        },
+        {
+            "type": "checkout_buttons",
+            "name": "Checkout Buttons",
+            "limit": 1
+        }
+    ]
+}
+{% endschema %}
